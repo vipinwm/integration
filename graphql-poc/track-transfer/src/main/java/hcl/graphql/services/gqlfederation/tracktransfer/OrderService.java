@@ -1,6 +1,5 @@
 package hcl.graphql.services.gqlfederation.tracktransfer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,37 +8,34 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hcl.graphql.services.rest.RestCallService;
+import hcl.graphql.services.rest.MonolithicHttpClient;
 
 @Service
 public class OrderService {
 
-	private List<Order> moneySentList = new ArrayList<>();
+	private List<Order> moneySentList =null;
 	@Autowired
-	private RestCallService restCallService;
+	private MonolithicHttpClient monolithicHttpClient;
 
 	@PostConstruct
 	public void init() {
-		moneySentList = DataHelper.loadMoneySentList();
+		
+		moneySentList= monolithicHttpClient.getOrder();
+		if (moneySentList == null || moneySentList.size() <= 0) {
+			moneySentList = DataHelper.loadMoneySentList();
+		}
+		
 	}
 
 	@NotNull
 	public Order lookupMoneySent(@NotNull String id) {
-
-		if (restCallService.invokeLookupOrder(id) != null) {
-			return restCallService.invokeLookupOrder(id).stream().filter(m -> m.getId().equals(id)).findAny().get();
-		}
-
 		return moneySentList.stream().filter(m -> m.getId().equals(id)).findAny().get();
 	}
 
 	public List<Order> findMoneySentByUserId(String userId) {
 
-		if (restCallService.invokeLookupOrder(userId) != null) {
-			return restCallService.invokeLookupOrder(userId);
-		}
-
-		return DataHelper.findMoneySentByUserId(userId);
+		return moneySentList;
+	//return DataHelper.findMoneySentByUserId(userId);
 	}
 
 	public Address findToaddressByMoneySentId(String id) {
