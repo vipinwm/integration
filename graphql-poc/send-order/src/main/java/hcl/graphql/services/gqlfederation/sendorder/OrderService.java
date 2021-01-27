@@ -1,4 +1,4 @@
-package hcl.graphql.services.gqlfederation.sendmoney;
+package hcl.graphql.services.gqlfederation.sendorder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,30 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hcl.graphql.services.rest.RestCallService;
+import hcl.graphql.services.rest.MonolithicHttpClient;
 
 @Service
 public class OrderService {
 
 	private List<Order> orderList = new ArrayList<>();
 	@Autowired
-	private RestCallService restCallService;
+	private MonolithicHttpClient monolithicHttpClient;
 
 	@PostConstruct
 	public void init() {
-		orderList = DataHelper.loadOrderList();
+		if (orderList.size() <= 0) {
+			List<User> users = monolithicHttpClient.getUsers();
+			if (users == null || users.size() <= 0) {
+				orderList = DataHelper.loadOrderList();
+			} else {
+				for (User user : users) {
+					for (Order order : user.getOrders()) {
+						orderList.add(order);
+					}
+				}
+			}
+		}
+
 	}
 
 	@NotNull
@@ -60,13 +72,6 @@ public class OrderService {
 	}
 
 	private List<Order> getOrders(String userId) {
-		if (restCallService.invokeLookupUser(userId) != null) {
-			User user1 = restCallService.invokeLookupUser(userId).stream().filter(user -> user.getId().equals(userId))
-					.findAny().get();
-			if (user1 != null && user1.getOrders() != null) {
-				return user1.getOrders();
-			}
-		}
-		return null;
+		return orderList;
 	}
 }

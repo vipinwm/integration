@@ -6,9 +6,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RootConfig {
-		@Bean("restTemplate")
-	   public RestTemplate getRestTemplate() {
-	      return new RestTemplate();
-	   }
+	
+	@Bean("restTemplate")
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
 
 }

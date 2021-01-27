@@ -2,7 +2,7 @@ package hcl.graphql.services.rest;
 
 import java.util.List;
 
-import hcl.graphql.services.gqlfederation.sendmoney.User;
+import hcl.graphql.services.gqlfederation.sendorder.User;
 
 public class UserListResponse {
 
@@ -20,8 +20,17 @@ public class UserListResponse {
 		super();
 		this.users = users;
 	}
-	
-	public UserListResponse() {
+
+	public UserListResponse() {}
+
+	@Override
+	public String toString() {
+	    String results = "";
+	    for(User d : users) {
+	        results += "," + d.toString();
+	    }
+	    return results;
 	}
 	
+
 }

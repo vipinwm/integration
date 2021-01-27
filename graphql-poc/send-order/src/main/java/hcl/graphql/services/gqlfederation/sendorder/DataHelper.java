@@ -1,7 +1,7 @@
 /**
  * 
  */
-package hcl.graphql.services.gqlfederation.sendmoney;
+package hcl.graphql.services.gqlfederation.sendorder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
