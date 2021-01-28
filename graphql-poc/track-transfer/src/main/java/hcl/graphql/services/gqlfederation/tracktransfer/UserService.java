@@ -20,12 +20,10 @@ public class UserService {
 
 	@PostConstruct
 	public void init() {
-
-		users = monolithicHttpClient.getUser();
+		users = monolithicHttpClient.getUsers();
 		if (users == null || users.size() <= 0) {
 			users = DataHelper.loadUser();
 		}
-
 	}
 
 	@NotNull

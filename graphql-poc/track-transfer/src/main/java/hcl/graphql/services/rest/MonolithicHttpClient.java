@@ -38,16 +38,13 @@ public class MonolithicHttpClient {
 
 	}
 
-	public List<User> getUser() {
-		UserResponse userResponse = null;
+	public List<User> getUsers() {
 		try {
-			userResponse = restTemplate.getForObject(usersUrl, UserResponse.class);
+			return restTemplate.getForObject(usersUrl, UserResponse.class).getUsers();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
-		return userResponse != null ? userResponse.getUsers() : null;
-
+		return null;
 	}
 
 	public List<Order> getOrder() {
