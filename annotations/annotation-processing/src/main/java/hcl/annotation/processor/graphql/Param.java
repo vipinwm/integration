@@ -1,7 +1,7 @@
 /**
  * 
  */
-package oracle.monitoring.annotation.processor.graphql;
+package hcl.annotation.processor.graphql;
 
 /**
  * @author vipink
@@ -12,13 +12,13 @@ public class Param {
 	/**
 	 * 
 	 */
-	public Param() {
-		// TODO Auto-generated constructor stub
-	}
+	public Param() {}
 
 	private String name;
 	private String type;
 	private boolean required;
+	private String defaultValue;
+	
 	public String getName() {
 		return name;
 	}
@@ -37,6 +37,14 @@ public class Param {
 	public void setRequired(boolean required) {
 		this.required = required;
 	}
+	
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+	
 	@Override
 	public String toString() {
 		return "Param [name=" + name + ", type=" + type + ", required="

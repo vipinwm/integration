@@ -1,7 +1,7 @@
 /**
  * 
  */
-package oracle.monitoring.annotation.processor.graphql;
+package hcl.annotation.processor.graphql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class QueryInfo {
 
 	private String returnType;
-	private String methodName;
+	private String name;
 	private List<Param> paramsList = new ArrayList<>();
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class QueryInfo {
 	public QueryInfo(String returnType, String methodName) {
 		super();
 		this.returnType = returnType;
-		this.methodName = methodName;
+		this.name = methodName;
 	}
 	public String getReturnType() {
 		return returnType;
@@ -33,10 +33,10 @@ public class QueryInfo {
 		this.returnType = returnType;
 	}
 	public String getMethodName() {
-		return methodName;
+		return name;
 	}
 	public void setMethodName(String methodName) {
-		this.methodName = methodName;
+		this.name = methodName;
 	}
 	public List<Param> getParamsList() {
 		return paramsList;
@@ -47,7 +47,7 @@ public class QueryInfo {
 	@Override
 	public String toString() {
 		return "QueryInfo [returnType=" + returnType + ", methodName="
-				+ methodName + ", paramsList=" + paramsList + "]";
+				+ name + ", paramsList=" + paramsList + "]";
 		
 	}
 	

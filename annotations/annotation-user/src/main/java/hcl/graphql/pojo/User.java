@@ -1,26 +1,27 @@
 /**
  * 
  */
-package oracle.monitoring.graphql.pojo;
+package hcl.graphql.pojo;
 
-import oracle.monitoring.annotation.graphql.VGraphQLType;
+import java.util.List;
+
+import hcl.annotation.graphql.VGraphQLType;
 
 /**
  * @author vipink
  *
  */
-@VGraphQLType (name="user")
+@VGraphQLType (name="user", key="id", client="apollo")
 public class User {
 
 	/**
 	 * 
 	 */
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
+	public User() {}
 	
 	private String firstName;
 	private String id;
+	private List<Order> orders;
 
 	public String getFirstName() {
 		return firstName;
@@ -36,6 +37,14 @@ public class User {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 	
 	
