@@ -1,32 +1,37 @@
 package hcl.graphql.services.gqlfederation.tracktransfer;
 
+import javax.annotation.PostConstruct;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hcl.graphql.services.rest.RestCallService;
+import hcl.graphql.services.rest.MonolithicHttpClient;
 
 @Service
 public class MoneyTransferService {
 	@Autowired
-	private RestCallService restCallService;
+	private MonolithicHttpClient monolithicHttpClient;
+	private MoneyTransfer moneyTransfer = null;
+
+	@PostConstruct
+	public void init() {
+		moneyTransfer = monolithicHttpClient.getTransfer();
+	}
 
 	@NotNull
 	public MoneyTransfer lookupTransfer(@NotNull String mtcn) {
 
-		return getMoneyTransfer(mtcn) != null ? getMoneyTransfer(mtcn) : DataHelper.findTransferByMtcn(mtcn);
-	}
-
-	public Order findMoneySentByMtcn(String mtcn) {
-		return getMoneyTransfer(mtcn) != null ? getMoneyTransfer(mtcn).getOrder()
-				: DataHelper.findTransferByMtcn(mtcn).getOrder();
-	}
-
-	private MoneyTransfer getMoneyTransfer(String mtcn) {
-		MoneyTransfer moneyTransfer = restCallService.invokeLookupTransfer(mtcn);
 		if (moneyTransfer != null) {
 			return moneyTransfer;
 		}
-		return null;
+		return DataHelper.findTransferByMtcn(mtcn);
+	}
+
+	public Order findMoneySentByMtcn(String mtcn) {
+		if (moneyTransfer != null && moneyTransfer.getOrder() != null) {
+			return moneyTransfer.getOrder();
+		}
+		return DataHelper.findTransferByMtcn(mtcn).getOrder();
 	}
 }
